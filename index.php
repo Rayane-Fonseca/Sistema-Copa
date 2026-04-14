@@ -16,20 +16,24 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
 
     switch ($action) {
-        case 'novo':
-            require_once './Views/create.php'; //mostrar formulário
-            break;
-        
-        case 'editar':
-            $app->editar($id);
-            break;
-
-        case 'deletar':
-            $app->deletar($id);
-            break;
-        default:
-            $app->index();
-            break;
+    case 'novo':
+        $app->criar();
+        break;
+    case 'salvar':
+        $app->salvar();
+        break;
+    case 'editar':
+        $app->editar($_GET['id']);
+        break;
+    case 'atualizar':
+        $app->atualizarDados();
+        break;
+    case 'deletar':
+        $app->deletar($_GET['id']);
+        break;
+    default:
+        $app->index();
+        break;
     }
 }
 

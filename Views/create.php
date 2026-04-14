@@ -1,9 +1,14 @@
+<?php
+$status = $_GET['status'] ?? '';
+$msg = $_GET['msg'] ?? '';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Time</title>
+    <title>Cadastrar Seleção</title>
     <link rel="shortcut icon" href="../assets/ball.png" type="image/x-icon">
     <style>
         body{
@@ -17,7 +22,7 @@
             content: "";
             position: fixed;
             inset: 0;
-            background-image: url(assets/fundo3.png);
+            background-image: url(assets/fundo.png);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -25,9 +30,18 @@
             z-index: -1;
             transform: scale(1.05);
         }
+        form {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+        }
         input { 
             border: 1px solid #545e75; 
             padding: 10px;
+            height: 42px;
             width: 100%;
             max-width: 400px;
             text-align: left; 
@@ -42,16 +56,9 @@
             margin: 10px 0 5px;
             font-weight: bold;
         }
-        h1{
-            display: flex;
-            justify-content: center;
-            color: white;
-        }
-        .acoes{
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 30px;
+        h2{
+            color: #f0f3f5;
+            text-align: center;
         }
         .btn {
             padding: 12px 24px;
@@ -64,26 +71,32 @@
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            transition: background 0.2s;
         }
-        .btn:hover {
-            background: #1e3a5f;
-        }
-        p {
-            margin-bottom: 20px;
-        }
-        form {
+        .mensagem {
             max-width: 500px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 25px;
-            text-align: center;
+            margin: 0 auto 20px auto;
+            padding: 14px 18px;
+            border-radius: 14px;
+            color: #fff;
+            font-weight: bold;
+        }
+        .mensagem.erro {
+            background: #b91c1c;
+        }
+        .mensagem.sucesso {
+            background: #166534;
         }
     </style>
 </head>
 <body>
-    <h1>Novo Time</h1>
+    <h2>Cadastrar Seleção</h2>
+
+    <?php if (!empty($msg)): ?>
+        <div class="mensagem <?= $status === 'sucesso' ? 'sucesso' : 'erro' ?>">
+            <?= htmlspecialchars($msg, ENT_QUOTES, 'UTF-8') ?>
+        </div>
+    <?php endif; ?>
+
     <form method="POST" action="index.php?action=salvar">
         <p>
             <label>Nome:</label>

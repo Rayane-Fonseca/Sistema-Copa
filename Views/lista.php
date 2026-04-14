@@ -17,7 +17,7 @@
             content: "";
             position: fixed;
             inset: 0;
-            background-image: url(assets/fundo3.png);
+            background-image: url(assets/fundo.png);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -78,6 +78,7 @@
             color: white;
             margin-bottom: 30px;
         }
+
     </style>
 </head>
 <body>
@@ -87,9 +88,11 @@
         <a href="index.php?action=novo" class="btn">+ Cadastrar Nova Seleção</a>
     </div>
 
+
+
     <div style="text-align: right; margin-bottom: 25px;">
         <select onchange="window.location='?grupo='+this.value" 
-                style="padding: 12px 16px; background: #304d6d; color: #f0f3f5; border: 2px solid #304d6d; border-radius: 25px; font-size: 16px; cursor: pointer; min-width: 200px;">
+                style="padding: 12px 16px; background: #304d6d; color: #f0f3f5; border: 2px solid #304d6d; border-radius: 25px; font-size: 16px; cursor: pointer; min-width: 100px;">
             <option value="">Todos os Grupos</option>
             <?php foreach ($grupos as $g): ?>
                 <option value="<?= htmlspecialchars($g) ?>" <?= $grupo == $g ? 'selected' : '' ?>>

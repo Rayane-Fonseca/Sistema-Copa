@@ -11,3 +11,9 @@ CREATE TABLE IF NOT EXISTS selecoes(
 );
 
 SELECT * FROM selecoes;
+
+ALTER TABLE selecoes MODIFY COLUMN titulos VARCHAR(255);
+
+ALTER TABLE selecoes ADD COLUMN bandeira VARCHAR(500) AFTER titulos;
+
+DESCRIBE selecoes;

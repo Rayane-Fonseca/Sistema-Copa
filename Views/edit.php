@@ -17,7 +17,7 @@
             content: "";
             position: fixed;
             inset: 0;
-            background-image: url(assets/fundo3.png);
+            background-image: url(assets/fundo.png);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -28,6 +28,7 @@
         input { 
             border: 1px solid #545e75; 
             padding: 10px;
+            height: 42px;
             width: 100%;
             max-width: 400px;
             text-align: left; 
