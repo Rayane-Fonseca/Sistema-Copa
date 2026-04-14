@@ -130,7 +130,29 @@ class SelecaoController {
         $totalPaginas = ceil($total / $limite);
         $grupos = $this->selecoes->listarGrupos();
 
+        $pagina = isset($_GET['p']) ? max(1, (int) $_GET['p']) : 1;
+        $limite = 6;
+        $grupo = isset($_GET['grupo']) ? trim($_GET['grupo']) : '';
+    
+        $times = $this->selecoes->buscarComFiltro($pagina, $limite, $grupo);
+        $total = $this->selecoes->contarComFiltro($grupo);
+        $totalPaginas = ceil($total / $limite);
+        $grupos = $this->selecoes->listarGrupos();
+    
+        $dashboardTotalSelecoes = $this->selecoes->totalSelecoes();
+        $dashboardTotalTitulos = $this->selecoes->totalTitulos();
+        $dashboardPorGrupo = $this->selecoes->selecoesPorGrupo();
+    
         require './Views/lista.php';
     }
+
+    public function dashboard() {
+        $dashboardTotalSelecoes = $this->selecoes->totalSelecoes();
+        $dashboardTotalTitulos = $this->selecoes->totalTitulos();
+        $dashboardPorGrupo = $this->selecoes->selecoesPorGrupo();
+    
+        require_once './Views/dashboard.php';
+    }
 }
+
 ?>

@@ -150,5 +150,30 @@ class Selecao {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
+
+    public function totalSelecoes() {
+        $sql = "SELECT COUNT(*) as total FROM selecoes";
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+    
+    public function totalTitulos() {
+        $sql = "SELECT SUM(titulos) as total FROM selecoes";
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+    
+    public function selecoesPorGrupo() {
+        $sql = "SELECT grupo, COUNT(*) as total FROM selecoes GROUP BY grupo ORDER BY grupo";
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function listarTodas() {
+        $query = "SELECT * FROM selecoes ORDER BY nome ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
