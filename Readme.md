@@ -115,15 +115,6 @@ Responsável pela interface visual do sistema, exibindo formulários, tabelas e 
 - Layout personalizado com HTML e CSS.
 - Dashboard com informações resumidas.
 
-## Melhorias futuras
-
-- Upload manual de imagem de bandeira.
-- Busca por nome da seleção.
-- Validação com JavaScript.
-- Layout responsivo para mobile.
-- Melhorias visuais com Bootstrap ou Tailwind.
-- Autenticação de usuários.
-
 ## Aprendizados
 
 Durante o desenvolvimento deste projeto, foram praticados conceitos como:
