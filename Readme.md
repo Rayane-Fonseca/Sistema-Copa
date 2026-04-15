@@ -42,7 +42,7 @@ sistema_copa/
 │   ├── create.php
 │   ├── edit.php
 │   ├── elenco.php
-│   ├── jogador-criar.php
+│   ├── jogador-create.php
 │   ├── jogador-edit.php
 │   └── dashboard.php
 ├── assets/
