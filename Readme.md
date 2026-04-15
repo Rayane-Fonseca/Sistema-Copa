@@ -90,7 +90,7 @@ private $password = "";
 | `index.php?action=deletar&id=1` | Exclui uma seleção |
 | `index.php?action=elenco&selecao_id=1` | Exibe o elenco da seleção |
 | `index.php?action=novo-jogador&selecao_id=1` | Abre o formulário de jogador |
-| `http://localhost:8080/index.php?action=editar-jogador&id=1` | Edita o formulário de jogador |
+| `index.php?action=atualizar-jogador` | Edita o formulário de jogador |
 | `index.php?action=dashboard` | Mostra o dashboard |
 
 ## Organização MVC
