@@ -17,6 +17,7 @@ $msg = $_GET['msg'] ?? '';
             margin: 30px auto;
             background-size: cover;
             background-position: center;
+            margin-top: 200px;
         }
         body::before{
             content: "";
@@ -30,48 +31,67 @@ $msg = $_GET['msg'] ?? '';
             z-index: -1;
             transform: scale(1.05);
         }
-        form {
-            max-width: 500px;
-            width: 100%;
+        .container {
+            max-width: 700px;
             margin: 0 auto;
+            background: #304d6d;
             padding: 30px;
-            border-radius: 25px;
-            text-align: center;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
         }
         input { 
-            border: 1px solid #545e75; 
-            padding: 10px;
-            height: 42px;
             width: 100%;
-            max-width: 400px;
-            text-align: left; 
-            background-color: #304d6d;
-            color: #f0f3f5;
-            border-radius: 25px;
+            padding: 12px 14px;
+            border: 1px solid #545e75;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            background:  #f0f3f5;
+            color: #545e75;
             box-sizing: border-box;
         }
         label{
             color: #f0f3f5;
-            display: block;
-            margin: 10px 0 5px;
             font-weight: bold;
+            margin-bottom: 6px;
+            display: block;
         }
         h2{
             color: #f0f3f5;
             text-align: center;
         }
+        .acoes {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
         .btn {
-            padding: 12px 24px;
-            background: #304d6d;
+            display: inline-block;
+            padding: 10px 16px;
+            background: #1e3a5f;
             color: #f0f3f5;
+            text-decoration: none;
             border: none;
             border-radius: 25px;
-            text-decoration: none;
-            font-size: 16px;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
+            font-size: 15px;
+            transition: 0.3s;
         }
+
+        .btn:hover {
+            background: #304d6d;
+        }
+        
         .mensagem {
             max-width: 500px;
             margin: 0 auto 20px auto;
@@ -89,32 +109,35 @@ $msg = $_GET['msg'] ?? '';
     </style>
 </head>
 <body>
-    <h2>Cadastrar Seleção</h2>
+    
+    <div class="container">
+        <h2>Cadastrar Seleção</h2>
 
-    <?php if (!empty($msg)): ?>
-        <div class="mensagem <?= $status === 'sucesso' ? 'sucesso' : 'erro' ?>">
-            <?= htmlspecialchars($msg, ENT_QUOTES, 'UTF-8') ?>
-        </div>
-    <?php endif; ?>
+        <?php if (!empty($msg)): ?>
+            <div class="mensagem <?= $status === 'sucesso' ? 'sucesso' : 'erro' ?>">
+                <?= htmlspecialchars($msg, ENT_QUOTES, 'UTF-8') ?>
+            </div>
+        <?php endif; ?>
 
-    <form method="POST" action="index.php?action=salvar">
-        <p>
-            <label>Nome:</label>
-            <input type="text" name="nome" required placeholder="Ex: Brasil">
-        </p>
-        <p>
-            <label>Grupo:</label>
-            <input type="text" name="grupo" required placeholder="Ex: Série A">
-        </p>
-        <p>
-            <label>Títulos:</label>
-            <input type="text" name="titulos" placeholder="Ex: 5 Copas, 2 Libertadores">
-        </p>
-        
-        <div class="acoes">
-            <a href="index.php" class="btn">Voltar</a>
-            <button type="submit" class="btn">Salvar Time</button>
-        </div>
-    </form>
+        <form method="POST" action="index.php?action=salvar">
+            <p>
+                <label>Nome:</label>
+                <input type="text" name="nome" required placeholder="Ex.: Brasil">
+            </p>
+            <p>
+                <label>Grupo:</label>
+                <input type="text" name="grupo" required placeholder="Ex.: Série A">
+            </p>
+            <p>
+                <label>Títulos:</label>
+                <input type="text" name="titulos" placeholder="Ex.: 5 Copas, 2 Libertadores">
+            </p>
+                
+            <div class="acoes">
+                <a href="index.php" class="btn">Voltar</a>
+                <button type="submit" class="btn">Salvar Time</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

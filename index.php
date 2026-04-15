@@ -1,77 +1,63 @@
-<?php 
-
+<?php
 require_once './Controller/SelecaoController.php';
+require_once './Controller/JogadorController.php';
 
-$app = new SelecaoController();
+$selecaoController = new SelecaoController();
+$jogadorController = new JogadorController();
 
 $action = $_GET['action'] ?? '';
-$id = $_GET['id'] ?? null;
 
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if($action === 'atualizar'){
-        $app->atualizarDados();
-    } else {
-        $app-> salvar();
-    }
-} else {
-
-    switch ($action) {
+switch ($action) {
     case 'novo':
-        $app->criar();
+        $selecaoController->criar();
         break;
+
     case 'salvar':
-        $app->salvar();
+        $selecaoController->salvar();
         break;
+
     case 'editar':
-        $app->editar($_GET['id']);
+        $selecaoController->editar($_GET['id'] ?? null);
         break;
+
     case 'atualizar':
-        $app->atualizarDados();
+        $selecaoController->atualizarDados();
         break;
+
     case 'deletar':
-        $app->deletar($_GET['id']);
+        $selecaoController->deletar($_GET['id'] ?? null);
         break;
+
     case 'dashboard':
-        $app->dashboard();
+        $selecaoController->dashboard();
         break;
-    default:
-        $app->index();
-        break;
-    }
-}
 
-$acao = $_GET['action'] ?? 'listar';
-
-switch ($acao) {
     case 'novo-jogador':
-        $controller = new JogadorController();
-        $controller->criar($_GET['selecao_id'] ?? null);
+        $jogadorController->criar($_GET['selecao_id'] ?? null);
         break;
 
     case 'salvar-jogador':
-        $controller = new JogadorController();
-        $controller->salvar();
+        $jogadorController->salvar();
         break;
 
     case 'elenco':
-        $controller = new JogadorController();
-        $controller->elenco($_GET['selecao_id'] ?? null);
+        $jogadorController->elenco($_GET['selecao_id'] ?? null);
         break;
 
     case 'editar-jogador':
-        $controller = new JogadorController();
-        $controller->editar($_GET['id'] ?? null);
+        $jogadorController->editar($_GET['id'] ?? null);
         break;
 
     case 'atualizar-jogador':
-        $controller = new JogadorController();
-        $controller->atualizar();
+        $jogadorController->atualizar();
         break;
 
     case 'deletar-jogador':
-        $controller = new JogadorController();
-        $controller->deletar($_GET['id'] ?? null, $_GET['selecao_id'] ?? null);
+        $jogadorController->deletar($_GET['id'] ?? null, $_GET['selecao_id'] ?? null);
+        break;
+
+    default:
+        $selecaoController->index();
         break;
 }
-
 ?>

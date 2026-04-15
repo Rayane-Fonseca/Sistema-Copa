@@ -169,7 +169,7 @@ class Selecao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function listarTodas() {
+    public function buscarTodas() {
         $query = "SELECT * FROM selecoes ORDER BY nome ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

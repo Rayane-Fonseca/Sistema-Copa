@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="shortcut icon" href="../assets/ball.png" type="image/x-icon">
     <style>
         body{
             font-family: Arial, sans-serif;
@@ -11,7 +12,7 @@
             margin: 30px auto;
             background-size: cover;
             background-position: center;
-            margin-top: 220px;
+            margin-top: 200px;
         }
 
         body::before{
@@ -22,7 +23,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: blur(1px);
+            filter: blur(2px);
             z-index: -1;
             transform: scale(1.05);
         }
@@ -30,9 +31,16 @@
         .container{
             max-width: 700px;
             margin: 0 auto;
-            background: #304d6d;
             padding: 20px;
             border-radius: 16px;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            border-radius: 25px;
+            overflow: hidden;
         }
 
         h1{
@@ -44,17 +52,18 @@
         .dashboard-tabela{
             width: 100%;
             border-collapse: collapse;
+            border-radius: 25px;
         }
 
         .dashboard-tabela th,
         .dashboard-tabela td{
             padding: 12px;
             border: 1px solid #545e75;
-            text-align: left;
+            text-align: center;
         }
 
         .dashboard-tabela th{
-            background: #304d6d;
+            background: #1e3a5f;
             color: #d9e2ec;
             width: 50%;
         }
@@ -64,24 +73,44 @@
             color: #d9e2ec;
         }
 
-        .btn-voltar{
-            text-decoration: none;
-            padding: 8px 14px;
-            background: #1e3a5f;
-            height: 30px;
-            width: 90px;
-            color: #d9e2ec;
-            border-radius: 25px;
+        .acoes {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        a {
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 10px 16px;
+            background: #1e3a5f;
+            color: #f0f3f5;
+            width: 70px;
+            height: 20px;
+            text-decoration: none;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
         }
+
+        a:hover {
+            background: #304d6d;
+        }
+
     </style>
 </head>
 <body>
     <h1>Dashboard</h1>
 
     <div class="container">
+        
+
 
         <table class="dashboard-tabela">
             <tr>
@@ -99,10 +128,13 @@
                     <td><?= $item['total'] ?> seleções</td>
                 </tr>
             <?php endforeach; ?>
+
         </table>
+
+        <div class="acoes">
+            <a href="index.php">Voltar</a>
+        </div>
     </div>
-    <div class="btn-voltar">
-        <a href="index.php">Voltar</a>
-    </div>
+
 </body>
 </html>

@@ -1,13 +1,8 @@
 <?php
+
 class Jogador {
     private $conn;
     private $table = "jogadores";
-
-    public $id;
-    public $nome;
-    public $posicao;
-    public $numero_camisa;
-    public $selecao_id;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -29,10 +24,16 @@ class Jogador {
     }
 
     public function buscarPorSelecao($selecao_id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE selecao_id = :selecao_id ORDER BY numero_camisa ASC";
+        $query = "SELECT j.*, s.nome AS nome_selecao
+                  FROM " . $this->table . " j
+                  INNER JOIN selecoes s ON j.selecao_id = s.id
+                  WHERE j.selecao_id = :selecao_id
+                  ORDER BY j.nome ASC";
+
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':selecao_id', $selecao_id);
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -41,6 +42,7 @@ class Jogador {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -68,6 +70,19 @@ class Jogador {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
+    }
+
+    public function totalPorSelecao($selecao_id) {
+        $query = "SELECT COUNT(*) AS total
+                  FROM " . $this->table . "
+                  WHERE selecao_id = :selecao_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':selecao_id', $selecao_id);
+        $stmt->execute();
+
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['total'];
     }
 }
 ?>

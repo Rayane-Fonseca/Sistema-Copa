@@ -193,7 +193,7 @@
                     <td>
                         <a href="index.php?action=editar&id=<?= $time['id'] ?>" class="btn" style="padding: 8px 16px; font-size: 14px;">Editar</a>
                         <a href="index.php?action=deletar&id=<?= $time['id'] ?>" class="btn" style="background: #dc2626; padding: 8px 16px; font-size: 14px;"onclick="return confirm('Tem certeza que deseja excluir <?= htmlspecialchars($time['nome']) ?>?')">Excluir</a>
-                        <a href="index.php?action=elenco&id=<?= $time['id'] ?>" class="btn" style="padding: 8px 16px; font-size: 14px;">Ver Elenco</a>
+                        <a href="index.php?action=elenco&selecao_id=<?= $time['id'] ?>" class="btn" style="padding: 8px 16px; font-size: 14px;">Ver Elenco</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

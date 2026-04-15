@@ -4,91 +4,160 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Jogador</title>
+    <link rel="shortcut icon" href="../assets/ball.png" type="image/x-icon">
     <style>
-        body{
+        body {
             font-family: Arial, sans-serif;
-            max-width: 700px;
+            max-width: 900px;
             margin: 30px auto;
+            background: #f4f6f9;
+            color: #1f2937;
+            position: relative;
+            margin-top: 150px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url(assets/fundo.png);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px);
+            z-index: -1;
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #304d6d;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h1, h2 {
+            display: flex;
+            justify-content: center;
+            color: #f0f3f5;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        label {
+            color: #f0f3f5;
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .grupo-campo {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #545e75;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            background:  #f0f3f5;
+            color: #545e75;
+            box-sizing: border-box;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #1e3a5f;
+            box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.2);
+        }
+
+        .grupo-campo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .acoes {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .btn, .btn-voltar {
+            display: inline-block;
+            padding: 10px 16px;
             background: #1e3a5f;
             color: #f0f3f5;
-        }
-
-        h1{
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        form{
-            background: #304d6d;
-            padding: 25px;
-            border-radius: 20px;
-        }
-
-        label{
-            display: block;
-            margin-bottom: 6px;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
-        input, select{
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        button, a{
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 20px;
             text-decoration: none;
-            font-size: 16px;
+            border: none;
+            border-radius: 25px;
             cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
         }
 
-        button{
-            background: #0f63a8;
-            color: #fff;
+        .btn-voltar:hover {
+            background: #304d6d;
         }
 
-        a{
-            background: #555;
-            color: #fff;
-            margin-left: 10px;
+        .btn:hover {
+            background: #304d6d;
         }
+
+        .linha-dupla {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
     </style>
+
 </head>
 <body>
-    <h1>Cadastrar Jogador</h1>
+    <div class="container">
+        <h1>Cadastrar Jogador</h1>
 
-    <form action="index.php?action=salvar-jogador" method="POST">
-        <label for="nome">Nome</label>
-        <input type="text" name="nome" id="nome" required>
+        <form action="index.php?action=salvar-jogador" method="post">
+            <label>Nome</label>
+            <input type="text" name="nome" required placeholder="Ex.: Ronaldo Fenômeno">
 
-        <label for="posicao">Posição</label>
-        <input type="text" name="posicao" id="posicao" required>
+            <label>Posição</label>
+            <input type="text" name="posicao" required placeholder="Ex.: Atacante">
 
-        <label for="numero_camisa">Número da camisa</label>
-        <input type="number" name="numero_camisa" id="numero_camisa" required>
+            <label>Número da Camisa</label>
+            <input type="number" name="numero_camisa" min="1" max="99" required placeholder="Ex.: 9">
 
-        <label for="selecao_id">Seleção</label>
-        <select name="selecao_id" id="selecao_id" required>
-            <option value="">Selecione</option>
-            <?php foreach ($selecoes as $selecao): ?>
-                <option value="<?= $selecao['id'] ?>">
-                    <?= htmlspecialchars($selecao['nome']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <label>Seleção</label>
+            <select name="selecao_id" required>
+                <option value="">Selecione</option>
+                <?php foreach ($todasSelecoes as $s): ?>
+                    <option value="<?= $s['id'] ?>" <?= (isset($selecao) && $selecao && $selecao['id'] == $s['id']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($s['nome']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <div class="acoes">
+                <a href="index.php?action=elenco&selecao_id=<?= $selecao['id'] ?>" class="btn-voltar">Voltar para Seleção</a>
+                <button type="submit" class="btn">Salvar Jogador</button>
+            </div>
+        </form>
+    </div>
 
-        <button type="submit">Salvar Jogador</button>
-        <a href="index.php">Voltar</a>
-    </form>
 </body>
 </html>

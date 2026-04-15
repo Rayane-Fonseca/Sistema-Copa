@@ -1,23 +1,29 @@
 <?php
+
 require_once './Model/Jogador.php';
 require_once './Model/Selecao.php';
 require_once './config/Database.php';
 
 class JogadorController {
     private $db;
-    private $jogador;
-    private $selecao;
+    private $jogadores;
+    private $selecoes;
 
     public function __construct() {
         $database = new Database();
         $this->db = $database->getConnection();
-
-        $this->jogador = new Jogador($this->db);
-        $this->selecao = new Selecao($this->db);
+        $this->jogadores = new Jogador($this->db);
+        $this->selecoes = new Selecao($this->db);
     }
 
     public function criar($selecao_id = null) {
-        $selecoes = $this->selecao->listarTodas();
+        $selecao = null;
+
+        if ($selecao_id) {
+            $selecao = $this->selecoes->buscarPorId($selecao_id);
+        }
+
+        $todasSelecoes = $this->selecoes->buscarTodas();
         require_once './Views/jogador-create.php';
     }
 
@@ -35,36 +41,26 @@ class JogadorController {
                 exit;
             }
 
-            if ($this->jogador->salvar($dados)) {
+            if ($this->jogadores->salvar($dados)) {
                 header("Location: index.php?action=elenco&selecao_id=" . $dados['selecao_id'] . "&status=sucesso&msg=Jogador cadastrado!");
                 exit;
-            } else {
-                header("Location: index.php?status=erro&msg=Erro ao salvar jogador!");
-                exit;
             }
-        }
-    }
 
-    public function elenco($selecao_id) {
-        $selecao = $this->selecao->buscarPorId($selecao_id);
-        $jogadores = $this->jogador->buscarPorSelecao($selecao_id);
-
-        if ($selecao) {
-            require_once './Views/elenco.php';
-        } else {
-            header("Location: index.php?status=erro&msg=Seleção não encontrada!");
+            header("Location: index.php?status=erro&msg=Erro ao salvar jogador");
             exit;
         }
+        
     }
+    
 
     public function editar($id) {
-        $jogador = $this->jogador->buscarPorId($id);
-        $selecoes = $this->selecao->listarTodas();
+        $jogador = $this->jogadores->buscarPorId($id);
+        $todasSelecoes = $this->selecoes->buscarTodas();
 
         if ($jogador) {
             require_once './Views/jogador-edit.php';
         } else {
-            header("Location: index.php?status=erro&msg=Jogador não encontrado!");
+            header("Location: index.php?status=erro&msg=Jogador não encontrado");
             exit;
         }
     }
@@ -79,19 +75,37 @@ class JogadorController {
                 'selecao_id' => (int) $_POST['selecao_id']
             ];
 
-            if ($this->jogador->atualizar($dados)) {
+            if ($this->jogadores->atualizar($dados)) {
                 header("Location: index.php?action=elenco&selecao_id=" . $dados['selecao_id'] . "&status=sucesso&msg=Jogador atualizado!");
                 exit;
-            } else {
-                header("Location: index.php?status=erro&msg=Erro ao atualizar jogador!");
-                exit;
             }
+
+            header("Location: index.php?status=erro&msg=Erro ao atualizar jogador");
+            exit;
         }
     }
 
-    public function deletar($id, $selecao_id) {
-        if ($this->jogador->deletar($id)) {
-            header("Location: index.php?action=elenco&selecao_id=" . $selecao_id . "&status=sucesso&msg=Jogador excluído!");
+    public function deletar($id, $selecao_id = null) {
+        $jogador = $this->jogadores->buscarPorId($id);
+
+        if ($jogador && $this->jogadores->deletar($id)) {
+            $redirectId = $selecao_id ?: $jogador['selecao_id'];
+            header("Location: index.php?action=elenco&selecao_id=" . $redirectId . "&status=sucesso&msg=Jogador excluído!");
+            exit;
+        }
+
+        header("Location: index.php?status=erro&msg=Erro ao excluir jogador");
+        exit;
+    }
+
+    public function elenco($selecao_id) {
+        $selecao = $this->selecoes->buscarPorId($selecao_id);
+        $jogadores = $this->jogadores->buscarPorSelecao($selecao_id);
+
+        if ($selecao) {
+            require_once './Views/elenco.php';
+        } else {
+            header("Location: index.php?status=erro&msg=Seleção não encontrada");
             exit;
         }
     }
