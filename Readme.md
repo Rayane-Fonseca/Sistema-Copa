@@ -21,7 +21,7 @@ Sistema web desenvolvido em **PHP + MySQL** com arquitetura **MVC**, voltado par
 - PDO
 - HTML5
 - CSS3
-- Arquitetura MVC
+- MVC
 
 ## Estrutura do projeto
 
