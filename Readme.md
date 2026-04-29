@@ -21,7 +21,6 @@ Sistema web desenvolvido em **PHP + MySQL** com arquitetura **MVC**, voltado par
 - PDO
 - HTML5
 - CSS3
-- CRUD
 - Arquitetura MVC
 
 ## Estrutura do projeto
@@ -42,7 +41,7 @@ sistema_copa/
 │   ├── create.php
 │   ├── edit.php
 │   ├── elenco.php
-│   ├── jogador-create.php
+│   ├── jogador-criar.php
 │   ├── jogador-edit.php
 │   └── dashboard.php
 ├── assets/
@@ -91,7 +90,7 @@ private $password = "";
 | `index.php?action=deletar&id=1` | Exclui uma seleção |
 | `index.php?action=elenco&selecao_id=1` | Exibe o elenco da seleção |
 | `index.php?action=novo-jogador&selecao_id=1` | Abre o formulário de jogador |
-| `index.php?action=atualizar-jogador` | Edita o formulário de jogador |
+| `http://localhost:8080/index.php?action=editar-jogador&id=1` | Edita o formulário de jogador |
 | `index.php?action=dashboard` | Mostra o dashboard |
 
 ## Organização MVC
@@ -114,6 +113,15 @@ Responsável pela interface visual do sistema, exibindo formulários, tabelas e 
 - Tela de elenco por seleção.
 - Layout personalizado com HTML e CSS.
 - Dashboard com informações resumidas.
+
+## Melhorias futuras
+
+- Upload manual de imagem de bandeira.
+- Busca por nome da seleção.
+- Validação com JavaScript.
+- Layout responsivo para mobile.
+- Melhorias visuais com Bootstrap ou Tailwind.
+- Autenticação de usuários.
 
 ## Aprendizados
 

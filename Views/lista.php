@@ -3,219 +3,476 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Seleções - Copa do Mundo</title>
-    <link rel="shortcut icon" href="../assets/ball.png" type="image/x-icon">
+    <title>Copa do Mundo</title>
+    <link rel="shortcut icon" href="../assets/soccer-ball.png" type="image/x-icon">
     <style>
-        body{
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 30px auto;
-            background-size: cover;
-            background-position: center;
+        :root {
+            --bg-dark: #061120;
+            --bg-dark-2: #0b1f3a;
+            --card-bg: rgba(20, 52, 92, 0.72);
+            --card-border: rgba(147, 197, 253, 0.14);
+            --accent-blue: #2563eb;
+            --accent-blue-light: #60a5fa;
+            --accent-blue-soft: #93c5fd;
+            --text-light: #eaf2ff;
+            --text-soft: #b6c6e3;
+            --btn-dark: #102a4d;
+            --btn-dark-hover: #163763;
+            --danger: #dc2626;
         }
 
-        body::before{
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background-image: url(assets/fundo.png);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: blur(2px);
+            background:
+                linear-gradient(rgba(6, 17, 32, 0.22), rgba(6, 17, 32, 0.30)),
+                url('assets/fundo.png') center/cover no-repeat;
+            filter: brightness(0.95);
+            z-index: -2;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            backdrop-filter: blur(1px);
             z-index: -1;
-            transform: scale(1.05);
         }
 
-        h1{
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 84px;
             display: flex;
-            justify-content: center;
-            color: white;
-            margin-bottom: 30px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            background: rgba(5, 16, 32, 0.88);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
         }
 
-        .acoes {
+        .brand {
             display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--accent-yellow);
+            color: #071426;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 1.05rem;
+            line-height: 1.1;
+        }
+
+        .brand-text span {
+            font-size: 0.78rem;
+            color: var(--accent-blue-soft);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
             gap: 12px;
-            margin-top: 20px;
-            flex-wrap: wrap;
         }
 
-        .btn,
-        .btn-dashboard {
-            padding: 12px 20px;
-            background: #304d6d;
-            color: #f0f3f5;
-            border: none;
-            border-radius: 25px;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
+        .page {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding-top: 120px;
+            padding-bottom: 40px;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: var(--btn-dark);
+            border: 1px solid var(--btn-dark-hover);
+            color: var(--accent-yellow);
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: 65px;
+            line-height: 0.95;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 .destaque {
+            color: var(--accent-yellow);
+        }
+
+        .hero p {
+            color: var(--text-soft);
+            font-size: 1.05rem;
+        }
+
+        .dashboard-panel {
+            margin-top: 10px;
+            background: rgba(7, 20, 38, 0.40);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.22);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 22px;
+            min-height: 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-card strong {
+            font-size: 2rem;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-card span {
+            color: var(--text-soft);
+            font-size: 0.95rem;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: 1fr 240px;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .toolbar input,
+        .toolbar select {
+            width: 100%;
+            height: 52px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(16, 39, 68, 0.82);
+            color: var(--text-light);
+            padding: 0 16px;
+            outline: none;
+        }
+
+        .table-card {
+            overflow: hidden;
+            border-radius: 22px;
+            border: 1px solid var(--card-border);
+            background: rgba(8, 24, 44, 0.72);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(255,255,255,0.04);
+        }
+
+        th {
+            text-align: center;
+            padding: 18px 16px;
+            color: #9fb0c0;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        td {
+            text-align: center;
+            padding: 18px 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: var(--text-light);
+            vertical-align: middle;
+        }
+
+        tbody tr:hover td {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .nome-time {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nome-time img {
+            width: 28px;
+            height: 20px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .acoes-tabela {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: background 0.2s;
+            min-height: 44px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: var(--btn-dark);
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.92rem;
+            font-weight: 600;
+            transition: 0.25s;
         }
 
-        .btn:hover,
-        .btn-dashboard:hover {
-            background: #1e3a5f;
+        .btn:hover {
+            background: var(--btn-dark-hover);
         }
 
-        .top-bar{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 0 25px;
-            gap: 20px;
-            flex-wrap: wrap;
+        .btn-primary {
+            background: var(--accent-blue-light);
+            color: #071426;
+            border: none;
         }
 
-        .filtro-grupo select{
-            padding: 12px 16px;
-            background: #304d6d;
-            color: #f0f3f5;
-            border: 2px solid #304d6d;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            min-width: 180px;
+        .btn-primary:hover {
+            background: var(--accent-blue-soft);
         }
 
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 20px; 
-            border-radius: 25px;
-            overflow: hidden;
+        .btn-danger {
+            background: rgba(220, 38, 38, 0.88);
+            border: none;
         }
 
-        th { 
-            background-color: #1e3a5f;
-            border: 1px solid #545e75; 
-            padding: 15px 10px; 
-            color: #f0f3f5;
-            font-weight: bold;
-        }
-
-        td { 
-            border: 1px solid #545e75; 
-            padding: 12px 10px; 
-            background-color: #304d6d;
-            color: #f0f3f5;
-            text-align: center;
-        }
-        
-        .bandeira{ 
-            border: 1px solid #545e75; 
-            padding: 12px 10px; 
-            background-color: #304d6d;
-            color: #f0f3f5;
-            text-align: left;
-        }
-        tr:hover td {
-            background-color: #3a5a7a;
+        .btn-danger:hover {
+            background: #b91c1c;
         }
 
         .paginacao {
-            margin-top: 25px;
-            text-align: center;
+            margin-top: 24px;
+            display: flex;
+            justify-content: end;
+            gap: 10px;
         }
 
-        .paginacao a {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #304d6d;
-            color: #f0f3f5;
-            text-decoration: none;
-            border-radius: 25px;
-            margin: 0 5px;
+        @media (max-width: 980px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .site-header {
+                padding: 0 16px;
+            }
+
+            .header-actions {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
         }
 
-        .paginacao a:hover {
-            background: #1e3a5f;
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 260px;
+            }
+
+            .dashboard-panel {
+                padding: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .site-header {
+                height: auto;
+                padding: 14px 16px;
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .page {
+                padding-top: 130px;
+            }
+
+            .table-card {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 900px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Seleções Cadastradas</h1>
-    
-    <div class="acoes">
-        <a href="index.php?action=novo" class="btn">+ Cadastrar Nova Seleção</a>
-    </div>
-
-    <div class="top-bar">
-        <div class="dashboard">
-            <a href="index.php?action=dashboard" class="btn-dashboard">Ver Dashboard</a>
+    <header class="site-header">
+        <div class="brand">
+            <div class="brand-text">
+                <strong>SISTEMA COPA</strong>
+                <span>Por Rayane Fonseca</span>
+            </div>
         </div>
 
-        <div class="filtro-grupo">
-            <select onchange="window.location='?grupo='+encodeURIComponent(this.value)">
-                <option value="">Todos os Grupos</option>
-                <?php foreach ($grupos as $g): ?>
-                    <option value="<?= htmlspecialchars($g) ?>" <?= $grupo == $g ? 'selected' : '' ?>>
-                        Grupo <?= htmlspecialchars($g) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+        <div class="header-actions">
+            <a href="index.php?action=dashboard" class="btn">Ver Dashboard</a>
+            <a href="index.php?action=novo" class="btn btn-primary">Nova Seleção</a>
         </div>
-    </div>
-    
-    <?php if (empty($times)): ?>
-        <p style="text-align: center; color: #f0f3f5; font-size: 18px;">Nenhuma seleção cadastrada ainda.
-            <a href="index.php?action=novo" style="color: #60a5fa;">Cadastre a primeira!</a>
-        </p>
-    <?php else: ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Grupo</th>
-                    <th>Títulos</th>
-                    <th>Criado em</th>
-                    <th>Ações</th>
-                </tr>
-            </thead> 
-            <tbody>
-                <?php foreach ($times as $time): ?>
-                <tr>
-                    <td class="bandeira">
-                        <?php if (!empty($time['bandeira'])): ?>
-                            <img src="<?= htmlspecialchars($time['bandeira']) ?>" alt="Bandeira" style="width: 28px; height: 20px; vertical-align: middle; margin-right: 8px; border-radius: 2px; align-items: left;">
-                        <?php endif; ?>
-                        <?= htmlspecialchars($time['nome']) ?>
-                    </td>
-                    <td><?= htmlspecialchars($time['grupo']) ?></td>
-                    <td><?= htmlspecialchars($time['titulos']) ?></td>
-                    <td><?= date('d/m/Y H:i', strtotime($time['criado_em'])) ?></td>
-                    <td>
-                        <a href="index.php?action=editar&id=<?= $time['id'] ?>" class="btn" style="padding: 8px 16px; font-size: 14px;">Editar</a>
-                        <a href="index.php?action=deletar&id=<?= $time['id'] ?>" class="btn" style="background: #dc2626; padding: 8px 16px; font-size: 14px;"onclick="return confirm('Tem certeza que deseja excluir <?= htmlspecialchars($time['nome']) ?>?')">Excluir</a>
-                        <a href="index.php?action=elenco&selecao_id=<?= $time['id'] ?>" class="btn" style="padding: 8px 16px; font-size: 14px;">Ver Elenco</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
-    
-    <?php 
-        $mostraProxima = count($times) == 6 && $pagina < $totalPaginas;
-        $mostraAnterior = $pagina > 1;
-    ?>
+    </header>
 
-    <?php if ($mostraProxima || $mostraAnterior): ?>
-        <div class="paginacao">
-            <?php if ($mostraAnterior): ?>
-                <a href="?p=<?= $pagina - 1 ?>&grupo=<?= urlencode($grupo) ?>">Anterior</a>
+    <main class="page">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">Copa do Mundo 2026</div>
+                <h1>Seleções <span class="destaque">Cadastradas</span></h1>
+                <p>Gerencie todas as seleções participantes da Copa do Mundo.</p>
+            </div>
+        </section>
+
+        <section class="dashboard-panel">
+
+            <div class="toolbar">
+                <input type="text" placeholder="Buscar seleção..." />
+                <select onchange="window.location='?grupo='+encodeURIComponent(this.value)">
+                    <option value="">Todos os Grupos</option>
+                    <?php foreach ($grupos as $g): ?>
+                        <option value="<?= htmlspecialchars($g) ?>" <?= $grupo == $g ? 'selected' : '' ?>>
+                            Grupo <?= htmlspecialchars($g) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <?php if (empty($times)): ?>
+                <p style="text-align:center; color:#f0f3f5; padding: 30px 0;">
+                    Nenhuma seleção cadastrada.
+                </p>
+            <?php else: ?>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Grupo</th>
+                                <th>Títulos</th>
+                                <th>Criado em</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($times as $time): ?>
+                                <tr>
+                                    <td>
+                                        <div class="nome-time">
+                                            <?php if (!empty($time['bandeira'])): ?>
+                                                <img src="<?= htmlspecialchars($time['bandeira']) ?>" alt="Bandeira de <?= htmlspecialchars($time['nome']) ?>">
+                                            <?php endif; ?>
+                                            <span><?= htmlspecialchars($time['nome']) ?></span>
+                                        </div>
+                                    </td>
+                                    <td><?= htmlspecialchars($time['grupo']) ?></td>
+                                    <td><?= htmlspecialchars($time['titulos']) ?></td>
+                                    <td><?= date('d/m/Y H:i', strtotime($time['criado_em'])) ?></td>
+                                    <td>
+                                        <div class="acoes-tabela">
+                                            <a href="index.php?action=editar&id=<?= $time['id'] ?>" class="btn">Editar</a>
+                                            <a href="index.php?action=deletar&id=<?= $time['id'] ?>" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir <?= htmlspecialchars($time['nome']) ?>?')">Excluir</a>
+                                            <a href="index.php?action=elenco&selecao_id=<?= $time['id'] ?>" class="btn">Elenco</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             <?php endif; ?>
-            
-            <?php if ($mostraProxima): ?>
-                <a href="?p=<?= $pagina + 1 ?>&grupo=<?= urlencode($grupo) ?>">Próxima</a>
+
+            <?php
+                $mostraProxima = count($times) == 4 && $pagina < $totalPaginas;
+                $mostraAnterior = $pagina > 1;
+            ?>
+
+            <?php if ($mostraProxima || $mostraAnterior): ?>
+                <div class="paginacao">
+                    <?php if ($mostraAnterior): ?>
+                        <a href="?p=<?= $pagina - 1 ?>&grupo=<?= urlencode($grupo) ?>" class="btn">Anterior</a>
+                    <?php endif; ?>
+
+                    <?php if ($mostraProxima): ?>
+                        <a href="?p=<?= $pagina + 1 ?>&grupo=<?= urlencode($grupo) ?>" class="btn">Próxima</a>
+                    <?php endif; ?>
+                </div>
             <?php endif; ?>
-        </div>
-    <?php endif; ?>
+        </section>
+    </main>
 </body>
 </html>
